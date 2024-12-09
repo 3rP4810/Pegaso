@@ -1,0 +1,26 @@
+﻿<Window x:Class="ProductCatalogue.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ProductCatalogue"
+        mc:Ignorable="d"
+        Title="UpdateWindow" Height="280" Width="280">
+    <StackPanel Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Label Content="Inserisci i dati:" Margin="0,0,0,10"/>
+
+        <Label Content="Nome prodotto"/>
+        <TextBox Name="NomeTxt" Text="{Binding productName}" Width="200" Margin="0,0,0,10"/>
+
+        <Label Content="Prezzo"/>
+        <TextBox Name="PrezzoTxt" Text="{Binding price}" Width="200" Margin="0,0,0,10" PreviewTextInput="DecimalNumberCheck"/>
+
+        <Label Content="Quantità"/>
+        <TextBox Name="QuantitaTxt" Text="{Binding quantity}" Width="200" Margin="0,0,0,10" PreviewTextInput="IntNumberCheck"/>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="ConfirmButton" Content="Conferma" Click="ConfirmButton_Click" Width="100" HorizontalAlignment="Center" Margin="5" CommandParameter="{Binding}"/>
+            <Button Name="CancelButton" Content="Annulla" Click="CancelButton_Click" Width="100" HorizontalAlignment="Center" Margin="5"/>
+        </StackPanel>
+    </StackPanel>
+</Window>
