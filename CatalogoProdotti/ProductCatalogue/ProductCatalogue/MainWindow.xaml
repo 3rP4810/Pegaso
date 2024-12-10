@@ -30,7 +30,7 @@
             <TextBlock Text="Quantita" Grid.Column="2"/>
         </Grid>
 
-        <ListBox Grid.Column="0" Grid.Row="2" Margin="2" Grid.ColumnSpan="2" x:Name="listProducts" ItemsSource="{Binding Path=Products}">
+        <ListBox Grid.Column="0" Grid.Row="2" Margin="2" Grid.ColumnSpan="2" x:Name="listProducts" ItemsSource="{Binding}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="5">
@@ -52,8 +52,8 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5">
-            <Button Name="AddButton" Content="Aggiungi" Click="AddButton_Click"/>
+        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+            <Button Name="AddButton" Content="Aggiungi" Click="AddButton_Click" Margin="5"/>
         </StackPanel>
     </Grid>
 </Window>

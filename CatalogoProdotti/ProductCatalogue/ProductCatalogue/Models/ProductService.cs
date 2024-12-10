@@ -6,7 +6,7 @@ namespace ProductCatalogue.Models
     public interface IProductService
     {
         IList<Product> Products { get; }
-        public bool Add (Product product);
+        public (bool, int) Add (string productName, int quantity, decimal price);
         public bool Remove(int Id);
         bool Update(Product product);
     }
@@ -54,38 +54,35 @@ namespace ProductCatalogue.Models
             using (var connection = dataBaseService.GetConnection())
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand($"DELETE  FROM Products WHERE productId = {Id}", connection))
+                using (SqlCommand command = new SqlCommand($"DELETE  FROM Products WHERE productId = @ProductId", connection))
                 {
-                    if (command.ExecuteNonQuery() > 0)
-                    {
-                        res = true;
-                    }
-                    res = false;
+                    command.Parameters.AddWithValue("@ProductId", Id);
+
+                    res = (command.ExecuteNonQuery() > 0) ? true : false;
                 }
             }
-
             return res;
         }
 
-        public bool Add(Product product)
+        public (bool, int) Add(string productName, int quantity, decimal price)
         {
             bool res;
+            int productId = 0;
+
             using (var connection = dataBaseService.GetConnection())
             {
                 connection.Open();
-                using (SqlCommand command = new SqlCommand($"INSERT INTO [Catalogue].[dbo].[Products] ([ProductName], [Quantity], [Price]) VALUES (@ProductName, @Quantity, @Price)", connection))
+                using (SqlCommand command = new SqlCommand("INSERT INTO [Catalogue].[dbo].[Products] ([ProductName], [Quantity], [Price]) VALUES (@ProductName, @Quantity, @Price); SELECT CAST(SCOPE_IDENTITY() AS INT)", connection))
                 {
-                    command.Parameters.AddWithValue("@ProductName", product.productName);
-                    command.Parameters.AddWithValue("@Quantity", product.quantity);
-                    command.Parameters.AddWithValue("@Price", product.price);
-                    if (command.ExecuteNonQuery() > 0)
-                    {
-                        res = true;
-                    }
-                    res = false;
+                    command.Parameters.AddWithValue("@ProductName", productName);
+                    command.Parameters.AddWithValue("@Quantity", quantity);
+                    command.Parameters.AddWithValue("@Price", price);
+
+                    productId = (int)command.ExecuteScalar();
+                    res = (productId > 0) ? true : false;
                 }
             }
-            return res;
+            return (res, productId);
         }
 
         public bool Update(Product product)
@@ -101,15 +98,11 @@ namespace ProductCatalogue.Models
                     command.Parameters.AddWithValue("@Quantity", product.quantity);
                     command.Parameters.AddWithValue("@Price", product.price);
                     command.Parameters.AddWithValue("@ProductId", product.productId);
-                    if (command.ExecuteNonQuery() > 0)
-                    {
-                        res = true;
-                    }
-                    res = false;
+                    
+                    res = (command.ExecuteNonQuery() > 0) ? false : true;
                 }
             }
             return res;
         }
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ProductCatalogue.Models;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,12 +16,12 @@ namespace ProductCatalogue
         {
             InitializeComponent();
             _productService = productService;
-            DataContext = productService;
+            DataContext = new ObservableCollection<Product>(_productService.Products);
         }
 
         void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            FormWindow formWindow = new FormWindow();
+            FormWindow formWindow = new FormWindow((ObservableCollection<Product>)DataContext);
             formWindow.ShowDialog();
         }
 
@@ -46,9 +47,12 @@ namespace ProductCatalogue
 
             if (product != null)
             {
-                _productService.Remove(product.productId);
-            }
-            
+                if (_productService.Remove(product.productId))
+                {
+                    var observableProducts = DataContext as ObservableCollection<Product>;
+                    observableProducts.Remove(product);
+                }
+            }            
         }
     }
 }

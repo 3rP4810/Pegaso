@@ -36,6 +36,13 @@ namespace ProductCatalogue
             }
         }
 
+        void LimitCharacterCheck(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"^.{0,100}$");
+            var textBox = sender as TextBox;
+            string app = textBox.Text + e.Text;
+            if (!regex.IsMatch(app)) { e.Handled = true; }
+        }
         private void DecimalNumberCheck(object sender, TextCompositionEventArgs e)
         {
             Regex regex = new Regex(@"^\d{1,6}(\.\d{0,2})?$");

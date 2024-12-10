@@ -10,7 +10,7 @@
         <Label Content="Inserisci i dati:" Margin="0,0,0,10"/>
 
         <Label Content="Nome prodotto"/>
-        <TextBox Name="NomeTxt" Text="{Binding productName}" Width="200" Margin="0,0,0,10"/>
+        <TextBox Name="NomeTxt" Text="{Binding productName}" Width="200" Margin="0,0,0,10" PreviewTextInput="LimitCharacterCheck"/>
 
         <Label Content="Prezzo"/>
         <TextBox Name="PrezzoTxt" Text="{Binding price}" Width="200" Margin="0,0,0,10" PreviewTextInput="DecimalNumberCheck"/>
